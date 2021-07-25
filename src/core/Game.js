@@ -35,8 +35,11 @@ export default class Game {
   }
 
   makeAIMove() {
-    const x = this._getRandomCoords();
-    const y = this._getRandomCoords();
+    if (this._getFreeCellsCount() === 0) {
+      return this._throwException('no cells available');
+    }
+
+    const [x, y] = this._getFreeRandomCoordinates();
 
     this._updateHistory(x, y, this._computerName);
     this._updateBoard(x, y, this._AIMoveSymbol);
@@ -44,6 +47,26 @@ export default class Game {
 
   getMoveHistory() {
     return this._history;
+  }
+
+  _getFreeRandomCoordinates() {
+    let x = this._getRandomCoords();
+    let y = this._getRandomCoords();
+
+    while (!!this._board[x][y]) {
+      x = this._getRandomCoords();
+      y = this._getRandomCoords();
+    }
+
+    return [x, y];
+  }
+
+  _getFreeCellsCount() {
+    return this._board.reduce(
+      (total, row) =>
+        row.reduce((count, el) => (el === '' ? ++count : count), total),
+      0
+    );
   }
 
   _updateHistory(x, y, name) {
