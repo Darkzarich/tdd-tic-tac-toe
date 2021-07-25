@@ -1,5 +1,6 @@
 export default class Game {
   constructor() {
+    this._fieldSize = 3;
     this._userName = 'User';
     this._computerName = 'Computer';
     this._userMoveSymbol = 'X';
@@ -33,7 +34,10 @@ export default class Game {
     this._updateBoard(x, y, this._userMoveSymbol);
   }
 
-  makeAIMove(x, y) {
+  makeAIMove() {
+    const x = this._getRandomCoords();
+    const y = this._getRandomCoords();
+
     this._updateHistory(x, y, this._computerName);
     this._updateBoard(x, y, this._AIMoveSymbol);
   }
@@ -44,6 +48,10 @@ export default class Game {
 
   _updateHistory(x, y, name) {
     this._history.push({ turn: name, x, y });
+  }
+
+  _getRandomCoords() {
+    return Math.floor(Math.random() * this._fieldSize);
   }
 
   _throwException(msg) {

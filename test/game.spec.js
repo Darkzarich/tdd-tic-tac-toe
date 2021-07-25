@@ -1,4 +1,5 @@
 import { expect } from 'chai';
+import sinon from 'sinon';
 import Game from '../src/core/Game';
 
 const userName = 'User';
@@ -46,17 +47,6 @@ describe('Game', () => {
     expect(func).to.throw('cell is already taken');
   });
 
-  it('Makes AI move in the given coords', () => {
-    const x = 1,
-      y = 1;
-
-    game.makeAIMove(x, y);
-
-    const board = game.getState();
-
-    expect(board[x][y]).to.equal(AIMoveSymbol);
-  });
-
   it("Game saves user's move in history", () => {
     const x = 1,
       y = 1;
@@ -69,31 +59,45 @@ describe('Game', () => {
   });
 
   it("Game saves computers's move in history", () => {
-    const x = 1,
-      y = 1;
+    const stub = sinon.stub(Math, 'random').returns(0.5);
 
-    game.makeAIMove(x, y);
+    game.makeAIMove();
 
     const history = game.getMoveHistory();
 
-    expect(history).to.deep.equal([{ turn: aiName, x, y }]);
+    expect(history).to.deep.equal([{ turn: aiName, x: 1, y: 1 }]);
+
+    stub.restore();
   });
 
   it('Game saves long move history', () => {
+    let stub = sinon.stub(Math, 'random').returns(0);
+
     game.makeAIMove(0, 0);
+
+    stub.restore();
+
     game.makeUserMove(0, 1);
-    game.makeAIMove(1, 1);
-    game.makeUserMove(0, 2);
 
     const history = game.getMoveHistory();
 
-    expect(history.length).to.equal(4);
+    expect(history.length).to.equal(2);
 
     expect(history).to.deep.equal([
       { turn: aiName, x: 0, y: 0 },
       { turn: userName, x: 0, y: 1 },
-      { turn: aiName, x: 1, y: 1 },
-      { turn: userName, x: 0, y: 2 },
     ]);
+  });
+
+  it('Computer moves in randomly chosen cell', () => {
+    const stub = sinon.stub(Math, 'random').returns(0.5);
+
+    game.makeAIMove();
+
+    const board = game.getState();
+
+    expect(board[1][1]).to.equal(AIMoveSymbol);
+
+    stub.restore();
   });
 });
