@@ -29,6 +29,26 @@ export default class Game {
     return this._board;
   }
 
+  isWinner(player) {
+    const symbol = this._getSymbolForPlayer(player);
+    const isEqual = this._checkCellEqual(symbol);
+    const rowNumbers = [...Array(this._fieldSize).keys()];
+
+    const horizontal = rowNumbers.reduce((res, i) => {
+      return (isEqual(i, 0) && isEqual(i, 1) && isEqual(i, 2)) || res;
+    }, false);
+
+    const vertical = rowNumbers.reduce((res, j) => {
+      return (isEqual(0, j) && isEqual(1, j) && isEqual(2, j)) || res;
+    }, false);
+
+    const diagonal =
+      (isEqual(0, 0) && isEqual(1, 1) && isEqual(2, 2)) ||
+      (isEqual(0, 2) && isEqual(1, 1) && isEqual(2, 0));
+
+    return horizontal || vertical || diagonal;
+  }
+
   makeUserMove(x, y) {
     this._updateHistory(x, y, this._userName);
     this._updateBoard(x, y, this._userMoveSymbol);
@@ -39,7 +59,7 @@ export default class Game {
       return this._throwException('no cells available');
     }
 
-    const [x, y] = this._getFreeRandomCoordinates();
+    const [x, y] = this._getFreeRandomCoords();
 
     this._updateHistory(x, y, this._computerName);
     this._updateBoard(x, y, this._AIMoveSymbol);
@@ -49,7 +69,7 @@ export default class Game {
     return this._history;
   }
 
-  _getFreeRandomCoordinates() {
+  _getFreeRandomCoords() {
     let x = this._getRandomCoords();
     let y = this._getRandomCoords();
 
@@ -79,5 +99,15 @@ export default class Game {
 
   _throwException(msg) {
     throw new Error(msg);
+  }
+
+  _getSymbolForPlayer(player) {
+    return player === this._userName
+      ? this._userMoveSymbol
+      : this._computerMoveSymbol;
+  }
+
+  _checkCellEqual(symbol) {
+    return (i, j) => this._board[i][j] === symbol;
   }
 }

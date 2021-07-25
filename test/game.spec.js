@@ -1,6 +1,7 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
 import Game from '../src/core/Game';
+import GameBuilder from './classes/GameBuilder';
 
 const userName = 'User';
 const aiName = 'Computer';
@@ -142,5 +143,50 @@ describe('Game', () => {
     const func = game.makeAIMove.bind(game);
 
     expect(func).to.throw('no cells available');
+  });
+
+  it('Checks if user won by horizontal combination', () => {
+    const game = new GameBuilder()
+      .withBoardState(
+        `
+      x x x
+      . . .
+      . . .`
+      )
+      .build();
+
+    const userWon = game.isWinner(userName);
+
+    expect(userWon).to.be.true;
+  });
+
+  it('Checks if user won by vertical combination', () => {
+    const game = new GameBuilder()
+      .withBoardState(
+        `
+      x . .
+      x . .
+      x . .`
+      )
+      .build();
+
+    const userWon = game.isWinner(userName);
+
+    expect(userWon).to.be.true;
+  });
+
+  it('Checks if user won by diagonal combination', () => {
+    const game = new GameBuilder()
+      .withBoardState(
+        `
+      x . .
+      . x .
+      . . x`
+      )
+      .build();
+
+    const userWon = game.isWinner(userName);
+
+    expect(userWon).to.be.true;
   });
 });
