@@ -13,11 +13,34 @@ global.document = dom.window.document;
 const createInstance = () => new DomController('#root');
 
 describe('DOM controller', () => {
+  afterEach(() => {
+    document.body.innerHTML = '';
+  });
+
   it('Creates empty table', () => {
     const domController = createInstance();
 
     domController.createTable();
 
     expect(document.querySelectorAll('table').length).to.equal(1);
+  });
+
+  it('Creates table with 3 rows and 3 columns', () => {
+    const domController = createInstance();
+
+    domController.createTable(3, 3);
+
+    expect(document.querySelectorAll('table').length).to.equal(1);
+    expect(document.querySelectorAll('tr').length).to.equal(3);
+    expect(document.querySelectorAll('td').length).to.equal(9);
+  });
+
+  it('Remembers indices of last clicked cell', () => {
+    const domController = createInstance();
+
+    domController.createTable(3, 3);
+    document.querySelector('table td').click();
+
+    expect(domController.lastClickedIndices).to.deep.equal([0, 0]);
   });
 });
