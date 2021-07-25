@@ -19,6 +19,11 @@ const createInstance = (game = {}) => {
 };
 
 describe('DOM controller', () => {
+  beforeEach(() => {
+    window.alert = sinon.spy();
+    window.confirm = sinon.spy();
+  });
+
   afterEach(() => {
     document.body.innerHTML = '';
   });
@@ -59,5 +64,17 @@ describe('DOM controller', () => {
     document.querySelector('table td').click();
 
     expect(domController.game.makeUserMove.called).to.be.true;
+  });
+
+  it('Gets an alert when user makes move in taken cell', () => {
+    const game = new Game();
+    const domController = createInstance(game);
+
+    domController.init();
+
+    document.querySelector('table td').click();
+    document.querySelector('table td').click();
+
+    expect(window.alert.called).to.be.true;
   });
 });

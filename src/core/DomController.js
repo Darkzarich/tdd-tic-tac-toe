@@ -4,6 +4,11 @@ export default class DomController {
     this.game = options.game;
   }
 
+  init() {
+    const size = this.game.getFieldSize();
+    this.createTable(size, size);
+  }
+
   createTable(rows = 0, cols = 0) {
     const child = document.createElement('table');
     this.rootNode.appendChild(child);

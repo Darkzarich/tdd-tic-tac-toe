@@ -69,6 +69,10 @@ export default class Game {
     return this._history;
   }
 
+  getFieldSize() {
+    return this._fieldSize;
+  }
+
   _getFreeRandomCoords() {
     let x = this._getRandomCoords();
     let y = this._getRandomCoords();
