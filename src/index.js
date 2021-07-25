@@ -1,3 +1,5 @@
+import './styles/main.css';
+
 import DomController from './core/DomController';
 import Game from './core/Game';
 

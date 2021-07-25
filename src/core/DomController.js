@@ -46,6 +46,7 @@ export default class DomController {
 
   _makeUserMove(row, col) {
     this.game.makeUserMove(row, col);
+    this._redraw();
   }
 
   _makeAIMove() {
