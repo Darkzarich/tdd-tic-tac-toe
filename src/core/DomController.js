@@ -36,7 +36,7 @@ export default class DomController {
 
       if (!continues) return;
 
-      this._makeComputerMove();
+      this._makeAIMove();
 
       this._checkContinue();
     } catch (e) {
@@ -46,8 +46,6 @@ export default class DomController {
 
   _makeUserMove(row, col) {
     this.game.makeUserMove(row, col);
-
-    this._makeAIMove();
   }
 
   _makeAIMove() {

@@ -13,6 +13,7 @@ module.exports = [
       filename: './js/bundle.js',
       path: path.resolve(__dirname, 'dist'),
     },
+    devtool: 'eval-source-map',
     plugins: [
       new HTMLWebpackPlugin({
         template: './index.html',
