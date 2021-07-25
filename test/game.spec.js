@@ -149,7 +149,7 @@ describe('Game', () => {
     const game = new GameBuilder()
       .withBoardState(
         `
-      x x x
+      X X X
       . . .
       . . .`
       )
@@ -164,9 +164,9 @@ describe('Game', () => {
     const game = new GameBuilder()
       .withBoardState(
         `
-      x . .
-      x . .
-      x . .`
+      X . .
+      X . .
+      X . .`
       )
       .build();
 
@@ -179,9 +179,9 @@ describe('Game', () => {
     const game = new GameBuilder()
       .withBoardState(
         `
-      x . .
-      . x .
-      . . x`
+      X . .
+      . X .
+      . . X`
       )
       .build();
 

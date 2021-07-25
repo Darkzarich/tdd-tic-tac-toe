@@ -73,6 +73,14 @@ export default class Game {
     return this._fieldSize;
   }
 
+  checkGame() {
+    if (this.isWinner(this._userName)) return `${this._userName} won!`;
+    if (this.isWinner(this._computerName)) return `${this._computerName} won!`;
+    if (this._getFreeCellsCount() === 0) return `nobody won :–(`;
+
+    return 'continue';
+  }
+
   _getFreeRandomCoords() {
     let x = this._getRandomCoords();
     let y = this._getRandomCoords();

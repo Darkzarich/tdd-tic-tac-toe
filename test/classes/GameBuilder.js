@@ -14,7 +14,7 @@ class GameBuilder {
 
     state.forEach((item, i) => {
       item.forEach((symbol, j) => {
-        if (symbol === 'x') this.game.makeUserMove(i, j);
+        if (symbol === 'X') this.game.makeUserMove(i, j);
       });
     });
 
