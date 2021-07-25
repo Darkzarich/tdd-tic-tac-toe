@@ -1,6 +1,6 @@
 import Game from '../../src/core/Game';
 
-// pattern builder
+// pattern Builder
 class GameBuilder {
   constructor() {
     this.game = new Game();
@@ -18,7 +18,6 @@ class GameBuilder {
       });
     });
 
-    // will allow us to chain methods
     return this;
   }
 
