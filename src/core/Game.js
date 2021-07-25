@@ -1,16 +1,20 @@
+import { AI_SYMBOL, INITIAL_BOARD, USER_SYMBOL } from './consts';
+
+const shallowCopy = (obj) => JSON.parse(JSON.stringify(obj));
 export default class Game {
   constructor() {
     this._fieldSize = 3;
     this._userName = 'User';
     this._computerName = 'Computer';
-    this._userMoveSymbol = 'X';
-    this._AIMoveSymbol = 'O';
+    this._userMoveSymbol = USER_SYMBOL;
+    this._AIMoveSymbol = AI_SYMBOL;
     this._history = [];
-    this._board = [
-      ['', '', ''],
-      ['', '', ''],
-      ['', '', ''],
-    ];
+    this._board = shallowCopy(INITIAL_BOARD);
+  }
+
+  _clear() {
+    this._history = [];
+    this._board = shallowCopy(INITIAL_BOARD);
   }
 
   _updateBoard(x, y, symbol) {

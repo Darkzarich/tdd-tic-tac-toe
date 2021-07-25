@@ -2,6 +2,7 @@ export default class DomController {
   constructor(options = {}) {
     this.rootNode = document.querySelector(options.root);
     this.game = options.game;
+    this._locked = false;
   }
 
   init() {
@@ -27,6 +28,10 @@ export default class DomController {
   }
 
   _handleCellClick(row, col) {
+    if (this._locked) {
+      return;
+    }
+
     this.lastClickedIndices = [row, col];
 
     try {
@@ -77,10 +82,30 @@ export default class DomController {
       });
 
       this.rootNode.appendChild(status);
+
+      this._startNewGameTimer();
+
       return false;
     }
 
     return true;
+  }
+
+  _clear() {
+    const statusEl = document.querySelector('#status');
+    if (statusEl) {
+      statusEl.remove();
+    }
+  }
+
+  _startNewGameTimer() {
+    this._locked = true;
+    setTimeout(() => {
+      this._clear();
+      this.game._clear();
+      this._redraw();
+      this._locked = false;
+    }, 3000);
   }
 
   _createNode(tag, config = {}) {
