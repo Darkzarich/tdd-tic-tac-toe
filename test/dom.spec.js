@@ -1,5 +1,6 @@
 import { expect } from 'chai';
 import jsdom from 'jsdom';
+import sinon from 'sinon';
 
 import Game from '../src/core/Game';
 import DomController from '../src/core/DomController';
@@ -10,7 +11,12 @@ const dom = new JSDOM('<html><body id="root"></body></html>');
 global.window = dom.window;
 global.document = dom.window.document;
 
-const createInstance = () => new DomController('#root');
+const createInstance = (game = {}) => {
+  return new DomController({
+    game: game,
+    root: '#root',
+  });
+};
 
 describe('DOM controller', () => {
   afterEach(() => {
@@ -42,5 +48,16 @@ describe('DOM controller', () => {
     document.querySelector('table td').click();
 
     expect(domController.lastClickedIndices).to.deep.equal([0, 0]);
+  });
+
+  it('Makes user move in game on cell click', () => {
+    const gameMock = { makeUserMove: sinon.spy() };
+    const domController = createInstance(gameMock);
+
+    domController.createTable(3, 3);
+
+    document.querySelector('table td').click();
+
+    expect(domController.game.makeUserMove.called).to.be.true;
   });
 });

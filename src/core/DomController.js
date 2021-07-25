@@ -1,6 +1,7 @@
 export default class DomController {
-  constructor(root) {
-    this.rootNode = document.querySelector(root);
+  constructor(options = {}) {
+    this.rootNode = document.querySelector(options.root);
+    this.game = options.game;
   }
 
   createTable(rows = 0, cols = 0) {
@@ -22,5 +23,14 @@ export default class DomController {
 
   _handleCellClick(row, col) {
     this.lastClickedIndices = [row, col];
+    try {
+      this._makeUserMove(row, col);
+    } catch (e) {
+      window.alert(e);
+    }
+  }
+
+  _makeUserMove(row, col) {
+    this.game.makeUserMove(row, col);
   }
 }
